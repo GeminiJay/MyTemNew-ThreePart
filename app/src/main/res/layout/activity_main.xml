@@ -1,0 +1,250 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/smartcontrolBar"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/black"
+    android:gravity="center"
+    android:orientation="vertical">
+
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/black"
+        android:minHeight="?attr/actionBarSize"
+        android:theme="?attr/actionBarTheme">
+
+        <TextView
+            android:id="@+id/toolbar_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:singleLine="true"
+            android:text="智能恒温"
+            android:textColor="@color/white"
+            android:textSize="20sp" />
+
+        <Button
+            android:id="@+id/backset"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="left"
+            android:background="@color/black"
+            android:text="设置"
+            android:textColor="@color/white" />
+
+        <Switch
+            android:id="@+id/blooth"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="right"
+            android:background="@color/black"
+            android:text="蓝牙"
+            android:textColor="@color/white" />
+    </android.support.v7.widget.Toolbar>
+
+    <LinearLayout
+        android:id="@+id/biaopan"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_gravity="center_horizontal"
+        android:layout_margin="0dp"
+        android:layout_marginLeft="50dp"
+        android:layout_marginTop="80dp"
+        android:layout_marginRight="50dp"
+        android:layout_weight="1"
+        android:gravity="center_horizontal"
+        android:padding="10dp"
+        android:paddingStart="10dp"
+        android:paddingRight="10dp">
+
+        <com.example.mainsmartcontroltem.view.NoiseboardView
+            android:id="@+id/noiseboardView"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_gravity="center|center_horizontal|fill_horizontal|center_vertical"
+            android:layout_weight="1"
+            android:accessibilityHeading="false"
+            android:fadingEdge="horizontal"
+            android:foregroundGravity="center"
+            android:paddingTop="20dp"
+            android:visibility="visible"
+            app:bigSliceCount="7"
+            app:maxValue="70"
+            app:minValue="0"
+            app:radius="200dp"
+            app:ribbonWidth="80dp"
+            app:scaleTextSize="14dp"
+            app:sliceCountInOneBigSlice="5"
+            app:unitText="℃" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/control"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_weight="1"
+        android:gravity="center|top"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:id="@+id/buttonlayout"
+            android:layout_width="match_parent"
+            android:layout_height="170dp"
+            android:layout_gravity="center"
+            android:layout_weight="10"
+            android:gravity="center"
+            android:orientation="horizontal">
+
+            <LinearLayout
+                android:id="@+id/switchkai"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:orientation="horizontal">
+
+                <Button
+                    android:id="@+id/bt_start"
+                    android:layout_width="70dp"
+                    android:layout_height="70dp"
+                    android:background="@drawable/switchback"
+                    android:onClick="onClick"
+                    android:text="开"
+                    android:textAllCaps="false"
+                    android:textColor="#525252"
+                    android:textSize="20sp" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/controllayout"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:orientation="horizontal">
+
+                <Button
+                    android:id="@+id/bt_control"
+                    android:layout_width="70dp"
+                    android:layout_height="70dp"
+                    android:background="@drawable/switchback"
+                    android:onClick="onClick"
+                    android:text="智能\n恒温"
+                    android:textAllCaps="false"
+                    android:textColor="#525252"
+                    android:textSize="20sp" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/exit"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:orientation="horizontal">
+
+                <Button
+                    android:id="@+id/bt_exit"
+                    android:layout_width="70dp"
+                    android:layout_height="70dp"
+                    android:background="@drawable/switchback"
+                    android:onClick="onClick"
+                    android:text="退出"
+                    android:textAllCaps="false"
+                    android:textColor="#525252"
+                    android:textSize="20sp" />
+            </LinearLayout>
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/jianText"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="30"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/jianvText"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_weight="30"
+                android:gravity="center"
+                android:text="肩部\n实时温度"
+                android:textColor="@color/colorPrimaryDark"
+                android:textSize="20sp" />
+
+            <TextView
+                android:id="@+id/jianvTextValue"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_weight="70"
+                android:gravity="center"
+                android:textColor="@color/colorPrimaryDark"
+                android:textSize="20sp"
+                android:textStyle="bold" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/yaoText"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="30"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/yaovText"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_weight="30"
+                android:gravity="center"
+                android:text="腰部\n实时温度"
+                android:textColor="@color/colorPrimaryDark"
+                android:textSize="20sp" />
+
+            <TextView
+                android:id="@+id/yaovTextValue"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_weight="70"
+                android:gravity="center"
+                android:textColor="@color/colorPrimaryDark"
+                android:textSize="20sp"
+                android:textStyle="bold" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/fuText"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="30"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/fuvText"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_weight="30"
+                android:gravity="center"
+                android:text="腹部\n实时温度"
+                android:textColor="@color/colorPrimaryDark"
+                android:textSize="20sp" />
+
+            <TextView
+                android:id="@+id/fuvTextValue"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_weight="70"
+                android:gravity="center"
+                android:textColor="@color/colorPrimaryDark"
+                android:textSize="20sp"
+                android:textStyle="bold" />
+        </LinearLayout>
+
+    </LinearLayout>
+
+</LinearLayout>
