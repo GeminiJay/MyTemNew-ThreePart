@@ -24,6 +24,11 @@ import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.Toast;
 
+import com.google.android.gms.appindexing.Action;
+import com.google.android.gms.appindexing.Thing;
+
+import org.greenrobot.eventbus.EventBus;
+
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
@@ -33,34 +38,21 @@ import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.google.android.gms.appindexing.Action;
-import com.google.android.gms.appindexing.Thing;
-
-import org.greenrobot.eventbus.EventBus;
-
 
 public class PipelineActivity extends AppCompatActivity {
     public static BluetoothSocket btSocket;
-
     private BluetoothAdapter bluetoothAdapter;
     private ArrayAdapter<String> deviceAdapter;
     private List<String> listDevices;
     private ListView listView;
     private LinearLayout btContent;
-    private Button searchBT;
     final private static int MESSAGE_READ = 100;
     public String result = "";
     public String sendConmand = "0";
-    public sendDataApplication mysendCMD = (sendDataApplication) getApplication();
-    String frontCMD = "1";
-
-
     /**
      * ATTENTION: This was auto-generated to implement the App Indexing API.
      * See https://g.co/AppIndexing/AndroidStudio for more information.
      */
-
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -68,11 +60,11 @@ public class PipelineActivity extends AppCompatActivity {
         ActivityManager.getInstance().addActivity(this);
         listView = this.findViewById(R.id.list);
         btContent = findViewById(R.id.bt_content_llt);
-        searchBT = findViewById(R.id.search_btn);
+        Button searchBT = findViewById(R.id.search_btn);
 
         listDevices = new ArrayList<>();
         bluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
-        deviceAdapter = new ArrayAdapter<String>(getApplicationContext(), R.layout.list_item, listDevices);
+        deviceAdapter = new ArrayAdapter<>(getApplicationContext(), R.layout.list_item, listDevices);
 
         searchBT.setOnClickListener(new BTListener());
 
@@ -82,6 +74,7 @@ public class PipelineActivity extends AppCompatActivity {
         // ATTENTION: This was auto-generated to implement the App Indexing API.
         // See https://g.co/AppIndexing/AndroidStudio for more information.
     }
+
     private BroadcastReceiver receiver = new BroadcastReceiver() {
 
         public void onReceive(Context context, Intent intent) {
@@ -125,9 +118,6 @@ public class PipelineActivity extends AppCompatActivity {
                 .setActionStatus(Action.STATUS_TYPE_COMPLETED)
                 .build();
     }
-
-
-
 
     /**
      * 蓝牙开启与搜索按钮点击监听
@@ -214,7 +204,6 @@ public class PipelineActivity extends AppCompatActivity {
 
     }
 
-
     /**
      * 蓝牙通信管理
      */
@@ -229,12 +218,9 @@ public class PipelineActivity extends AppCompatActivity {
                 int len;
 
                 while (true) {
-
                     try {
                         len = inputStream.read(data);
-                        result = new String(data,0,len);
-                        //result = String.valueOf(len);//new String(data, 0,len);
-                        //result = result.substring(0, len);
+                        result = new String(data, 0, len);
                         Message msg = new Message();
                         msg.what = MESSAGE_READ;
                         msg.obj = result;
@@ -243,14 +229,12 @@ public class PipelineActivity extends AppCompatActivity {
                         sendConmand = sendDataApplication.sendmidCommand + "#";
                         Log.v("发送:", sendConmand);
                         outputStream.write(sendConmand.getBytes(StandardCharsets.UTF_8));
-
                     } catch (IOException | InterruptedException e) {
                         e.printStackTrace();
                         break;
                     }
                 }
-            }
-            catch (IOException e) {
+            } catch (IOException e) {
                 e.printStackTrace();
             }
         }
@@ -258,20 +242,15 @@ public class PipelineActivity extends AppCompatActivity {
 
     }
 
-
     @SuppressLint("HandlerLeak")
     protected Handler handler = new Handler() {
         @Override
         public void handleMessage(Message msg) {
-            switch (msg.what) {
-                case MESSAGE_READ:
-                    result = (String) msg.obj;
-                    if (EventBus.getDefault().hasSubscriberForEvent(MessageEvent.class)) {
-                        EventBus.getDefault().post(new MessageEvent(result));
-                    }
-
-                    //Toast.makeText(getApplicationContext(), sendConmand, Toast.LENGTH_SHORT).show();
-
+            if (msg.what == MESSAGE_READ) {
+                result = (String) msg.obj;
+                if (EventBus.getDefault().hasSubscriberForEvent(MessageEvent.class)) {
+                    EventBus.getDefault().post(new MessageEvent(result));
+                }
             }
         }
     };
