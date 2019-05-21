@@ -231,11 +231,6 @@ public class PipelineActivity extends AppCompatActivity {
                 while (true) {
 
                     try {
-                        try {
-                            Thread.sleep(100);//等待0.5秒，让数据接收完整
-                        } catch (InterruptedException e) {
-                            e.printStackTrace();
-                        }
                         len = inputStream.read(data);
                         result = new String(data,0,len);
                         //result = String.valueOf(len);//new String(data, 0,len);
@@ -244,11 +239,12 @@ public class PipelineActivity extends AppCompatActivity {
                         msg.what = MESSAGE_READ;
                         msg.obj = result;
                         handler.sendMessage(msg);
-                        sendConmand = mysendCMD.sendmidCommand + "#";
+                        Thread.sleep(10);//等待0.5秒，让数据接收完整
+                        sendConmand = sendDataApplication.sendmidCommand + "#";
                         Log.v("发送:", sendConmand);
                         outputStream.write(sendConmand.getBytes(StandardCharsets.UTF_8));
 
-                    } catch (IOException e) {
+                    } catch (IOException | InterruptedException e) {
                         e.printStackTrace();
                         break;
                     }
